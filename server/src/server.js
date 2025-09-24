@@ -23,11 +23,9 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(_dirname, "../client/dist/index.html"));
   });
 }
+export default app;
 
-if (VERCEL) {
-  module.exports = app;
-  // module.exports.handler = serverless(app);
-} else {
+if (!VERCEL) {
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
