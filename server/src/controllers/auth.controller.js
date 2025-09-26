@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import { sendWelcomeEmail } from "../emails/emailHandlers.js";
+import { ENV } from "../lib/env.js";
 import { generateToken } from "../lib/utils.js";
 import User from "../models/user.model.js";
 
@@ -51,7 +52,7 @@ export const signup = async (req, res) => {
         await sendWelcomeEmail(
           saveUser.email,
           saveUser.fullname,
-          process.env.CLIENT_URL
+          ENV.CLIENT_URL
         );
       } catch (error) {
         console.log("Lỗi gửi email:", error);
@@ -63,4 +64,47 @@ export const signup = async (req, res) => {
     console.log("ERROR CONTROLLER SIGNUP:", error);
     res.status(500).json({ message: "Server error" });
   }
+};
+
+export const login = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    if (!password || !email) {
+      return res
+        .status(400)
+        .json({ message: "Vui lòng nhập đầy đủ thông tin." });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: "Tài khoản không tồn tại." });
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    if (!isPasswordCorrect) {
+      return res
+        .status(400)
+        .json({ message: "Tài khoản hoặc mật khẩu không đúng." });
+    }
+
+    generateToken(user._id, res);
+
+    res.status(201).json({
+      message: "Đăng nhập thành công.",
+      data: {
+        _id: user._id,
+        fullname: user.fullname,
+        email: user.email,
+        profilePic: user.profilePic,
+      },
+    });
+  } catch (error) {
+    console.log("ERROR CONTROLLER LOGIN:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const logout = (_, res) => {
+  res.cookie("jwt", "", { maxAge: 0 });
+  res.status(200).json({ message: "Đăng xuất thành công" });
 };
