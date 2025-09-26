@@ -12,7 +12,6 @@ dotenv.config();
 const app = express();
 const _dirname = path.resolve();
 
-const VERCEL = ENV.VERCEL;
 const PORT = ENV.PORT || 5000;
 
 app.use(express.json());
@@ -29,7 +28,7 @@ if (ENV.NODE_ENV === "production") {
 }
 export default app;
 
-if (!VERCEL) {
+if (!process.env.VERCEL) {
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
     connectDB();
