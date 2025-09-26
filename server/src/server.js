@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import path from "path";
 
+import { connectDB } from "./lib/db.js";
 import authRoutes from "./routes/auth.routes.js";
 import messageRoutes from "./routes/message.routes.js";
 
@@ -12,6 +13,8 @@ const _dirname = path.resolve();
 
 const VERCEL = process.env.VERCEL;
 const PORT = process.env.PORT || 5000;
+
+app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
@@ -28,5 +31,6 @@ export default app;
 if (!VERCEL) {
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
+    connectDB();
   });
 }
