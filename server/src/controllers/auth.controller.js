@@ -6,7 +6,7 @@ import { generateToken } from "../lib/utils.js";
 import User from "../models/user.model.js";
 
 export const signup = async (req, res) => {
-  const { fullname, password, email } = req.body;
+  const { fullname, password, email } = req.body ?? {};
 
   try {
     if (!fullname || !password || !email) {
@@ -68,7 +68,7 @@ export const signup = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password } = req.body ?? {};
   try {
     if (!password || !email) {
       return res
@@ -112,7 +112,7 @@ export const logout = (_, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const { profilePicture } = req.body;
+    const { profilePicture } = req.body ?? {};
     if (!profilePicture) {
       return res.status(400).json({ message: "Vui lòng cung cấp hình ảnh." });
     }
