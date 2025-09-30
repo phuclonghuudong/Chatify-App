@@ -4,7 +4,7 @@ export const axiosInstance = axios.create({
   baseURL:
     import.meta.env.MODE === "development"
       ? "http://localhost:3005/api"
-      : "/api",
+      : "https://server-chatify-app.vercel.app/api",
   withCredentials: true,
 });
 
