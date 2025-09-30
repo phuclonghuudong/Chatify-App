@@ -6,10 +6,10 @@ import { generateToken } from "../lib/utils.js";
 import User from "../models/user.model.js";
 
 export const signup = async (req, res) => {
-  const { fullname, password, email } = req.body ?? {};
+  const { fullName, password, email } = req.body ?? {};
 
   try {
-    if (!fullname || !password || !email) {
+    if (!fullName || !password || !email) {
       return res
         .status(400)
         .json({ message: "Vui lòng nhập đầy đủ thông tin." });
@@ -32,7 +32,7 @@ export const signup = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const payload = { fullname, email, password: hashedPassword };
+    const payload = { fullName, email, password: hashedPassword };
     const newUser = new User(payload);
 
     if (newUser) {
@@ -43,16 +43,16 @@ export const signup = async (req, res) => {
         message: "Đăng ký thành công.",
         data: {
           _id: newUser._id,
-          fullname: newUser.fullname,
+          fullName: newUser.fullName,
           email: newUser.email,
-          profilePic: newUser.profilePic,
+          profilePicture: newUser.profilePicture,
         },
       });
 
       try {
         await sendWelcomeEmail(
           saveUser.email,
-          saveUser.fullname,
+          saveUser.fullName,
           ENV.CLIENT_URL
         );
       } catch (error) {
@@ -94,9 +94,9 @@ export const login = async (req, res) => {
       message: "Đăng nhập thành công.",
       data: {
         _id: user._id,
-        fullname: user.fullname,
+        fullName: user.fullName,
         email: user.email,
-        profilePic: user.profilePic,
+        profilePicture: user.profilePicture,
       },
     });
   } catch (error) {
@@ -124,7 +124,7 @@ export const updateProfile = async (req, res) => {
     const updateUser = await User.findByIdAndUpdate(
       userId,
       {
-        profilePic: uploadResponse.secure_url,
+        profilePicture: uploadResponse.secure_url,
       },
       { new: true }
     );

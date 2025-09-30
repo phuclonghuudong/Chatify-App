@@ -7,3 +7,21 @@ export const axiosInstance = axios.create({
       : "/api",
   withCredentials: true,
 });
+
+axiosInstance.interceptors.response.use(
+  (response) => response.data,
+  async (error) => {
+    const originRequest = error.config;
+
+    return Promise.reject(error);
+  }
+);
+
+axiosInstance.interceptors.response.use(
+  (response) => response.data,
+  async (error) => {
+    const originRequest = error.config;
+
+    return Promise.reject(error);
+  }
+);
