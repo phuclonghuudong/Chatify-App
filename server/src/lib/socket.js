@@ -10,6 +10,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "https://chatify-app-phi.vercel.app",
   "https://chatify-app-b4om.onrender.com",
+  "https://chatify-app-1-kkwl.onrender.com",
 ];
 
 const io = new Server(server, {

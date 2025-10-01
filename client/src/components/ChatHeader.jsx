@@ -29,7 +29,7 @@ function ChatHeader() {
         >
           <div className="w-12 rounded-full">
             <img
-              src={selectedUser.profilePic || "/avatar.png"}
+              src={selectedUser.profilePicture || "/avatar.png"}
               alt={selectedUser.fullName}
             />
           </div>
