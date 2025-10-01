@@ -90,6 +90,10 @@ export const useAuthStore = create((set, get) => ({
 
     const socket = io(BASE_URL, {
       withCredentials: true,
+      transports: ["websocket"], // ép websocket (ổn định hơn polling)
+      reconnection: true, // tự động reconnect
+      reconnectionAttempts: 10, // thử lại tối đa 10 lần
+      reconnectionDelay: 2000, // delay 2s giữa mỗi lần
     });
 
     socket.connect();

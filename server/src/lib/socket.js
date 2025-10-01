@@ -2,15 +2,21 @@ import express from "express";
 import http from "http";
 import { Server } from "socket.io";
 import { socketAuthMiddleware } from "../middleware/socket.auth.middleware.js";
-import { ENV } from "./env.js";
 
 const app = express();
 const server = http.createServer(app);
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://chatify-app-phi.vercel.app",
+  "https://chatify-app-b4om.onrender.com",
+];
+
 const io = new Server(server, {
   cors: {
-    origin: [ENV.CLIENT_URL],
+    origin: allowedOrigins,
     credentials: true,
+    methods: ["GET", "POST"],
   },
 });
 
