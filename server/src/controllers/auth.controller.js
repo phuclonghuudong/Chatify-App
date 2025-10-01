@@ -127,7 +127,7 @@ export const updateProfile = async (req, res) => {
         profilePicture: uploadResponse.secure_url,
       },
       { new: true }
-    );
+    ).select("-password");
 
     res.status(200).json({
       message: "Cập nhật hình đại diện thành công.",

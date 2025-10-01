@@ -6,12 +6,12 @@ import path from "path";
 
 import { connectDB } from "./lib/db.js";
 import { ENV } from "./lib/env.js";
+import { app, server } from "./lib/socket.js";
 import authRoutes from "./routes/auth.routes.js";
 import messageRoutes from "./routes/message.routes.js";
 
 dotenv.config();
 
-const app = express();
 const _dirname = path.resolve();
 
 const PORT = ENV.PORT || 5000;
@@ -47,7 +47,7 @@ if (ENV.NODE_ENV === "production") {
 export default app;
 
 if (!process.env.VERCEL) {
-  app.listen(PORT, () => {
+  server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
 }

@@ -31,7 +31,7 @@ const ProfileHeader = () => {
     <div className="p-6 border-b border-slate-700/50">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="avatar online">
+          <div className="avatar avatar-online">
             <button
               className="size-14 rounded-full overflow-hidden relative group"
               onClick={() => fileInputRef.current.click()}
