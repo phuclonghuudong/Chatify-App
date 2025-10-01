@@ -2,6 +2,7 @@ import express from "express";
 import http from "http";
 import { Server } from "socket.io";
 import { socketAuthMiddleware } from "../middleware/socket.auth.middleware.js";
+import { ENV } from "./env.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -15,7 +16,7 @@ const allowedOrigins = [
 
 const io = new Server(server, {
   cors: {
-    origin: allowedOrigins,
+    origin: ENV.CLIENT_URL,
     credentials: true,
     methods: ["GET", "POST"],
   },
